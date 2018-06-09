@@ -1,0 +1,18 @@
+% layout 'default';
+<div id="chart">
+</div>
+<script src="https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.js"></script>
+<script>
+mermaid.initialize({
+    startOnLoad: true
+})
+$(function() {
+    var graphDefinition = 'graph TB\na-->b'
+    var cb = function(svgGraph) {
+        $('#chart').html(svgGraph)
+    }
+    mermaid.render('id1',graphDefinition,cb)
+})
+
+
+</script>

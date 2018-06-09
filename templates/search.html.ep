@@ -1,0 +1,85 @@
+% layout 'default';
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" media="screen" />
+<style>
+  #lines { position: absolute; top: 0; left: 0 }
+  .airport { border: none }
+  #toolbar { margin-bottom: 12px }
+  #from_airports input[type="checkbox"] { margin-left: 6px; margin-right: 3px; } 
+  #to_airports input[type="checkbox"] { margin-right: 6px; margin-left: 3px; } 
+  #from_airports .airport { text-align: right }
+svg { background-color: #fdfdfd; border: none } 
+</style>
+    <svg id="lines" xmlns="http://www.w3.org/2000/svg" width="1440" height="1000" viewBox="0 0 1440 1000">
+</svg>
+<div class="col-md-10 col-md-offset-0">
+  <h2 id="countries">countries</h2>
+  <div class="row">
+    <div class="col">
+      <label for="from_country">What country do you want to fly from?</label>
+      <input class="form-control" id="from_country" name="from_country" type="text">
+    </div>
+    <div class="col">
+      <label for="to_country">What country do you want to fly to?</label>
+      <input class="form-control" id="to_country" name="to_country" type="text">
+    </div>
+  </div>
+  <div class="row" style="padding-top:24px">
+    <div class="col">
+      <label for="from_date">What's your earliest leaving date?</label>
+      <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+	<input name="from_date" id="from_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+	<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+	  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+	</div>
+      </div>
+    </div>
+    <div class="col">
+      <label for="to_date">and your latest return date?</label>
+      <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+	<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
+	<div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+	  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-10 col-md-offset-0">
+  <hr />
+  <h2 id="airports">airports</h2>
+</div>
+<div id="toolbar" class="col-md-10 offset-md-0">
+  <input id="hide_no_conn" class="iata_select" type="checkbox"> Hide airport without connections&emsp;|&emsp;
+  <input id="hide_no_sel" class="iata_select" type="checkbox"> Hide unselected airports&emsp;|&emsp;
+  Start searching deals <button type="button" class="btn btn-primary btn-sm">Go</button>
+</div>
+<div id="from_airports" class="col-md-4 offset-md-0">
+  From airports
+</div>
+<div id="to_airports" class="col-md-4 offset-md-2">
+  To airports
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.bundle.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/typeaheadjs.css" media="screen" />    
+<script src="/static/app/connect.js"></script>
+<script src="/static/app/ryan.js"></script>
+<script id="list-template" type="text/x-handlebars-template">
+  <table>
+  {{#if dest }}
+  {{#each airports }}
+  <tr id="{{ this.iataCode }}"><td><div class="airport"></div></td>
+    <td><input class="iata_select" type="checkbox" checked>{{ this.name }} ({{ this.iataCode }})</td></tr>
+  {{/each}}
+  {{else}}
+  {{#each airports }}
+  <tr id="{{ this.iataCode }}"><td><div class="airport">{{ this.name }} ({{ this.iataCode }})</div></td>
+    <td><input class="iata_select" type="checkbox" checked></td></tr>
+  {{/each}}
+  {{/if}}
+  </table>
+</script>
